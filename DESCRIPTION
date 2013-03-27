@@ -1,0 +1,13 @@
+Package: povray
+Version: 0.0-1
+Date: 2013-03-23
+Title: R interface to POVRay raytracer
+Authors@R: c(person("Grant", "Williamson", role = c("aut", "cre"),
+                          email = "g.williamson@gmail.com"))
+Author: Grant Williamson
+Maintainer: Grant Williamson <g.williamson@gmail.com>
+Depends: R (>= 1.8.0)
+Description: Provides classes to render scenes in POVRay from R.
+License: WTFPL 
+URL: http://github.com/ozjimbob/r-povray
+BugReports: http://github.com/ozjimbob/r-povray/issues
