@@ -14,14 +14,21 @@ The package provides a range of environment-based classes, for example a **Scene
 
 Scenes and objects are created as follows:
 
-    myScene = Scene()
-    light1 = Light(location=c(10,10,10),colour=c(1,1,0))
-    camera = Camera(location=c(5,5,-5),look_at=c(5,0,0))
-    box1 = Box(c(4,0,0),c(6,5,2),color=c(1,0,0))
-    light1$push(myScene)
-    camera$push(myScene)
-    box1$push(myScene)
-    myScene$save("myfile.pov")
-    myScene$render()
+    sc=Scene()
+    l1=Light(c(14,5,-15),Colour(1,1,1))
+    l2=Light(c(-14,15,-10),Colour(1,1,0))
+    c1=Camera(c(3,10,-15),c(3,2,2))
+    green=Color(0,1,0)
+    red=Color(1,0,0)
+    cyl=Cylinder(c(3,0,2),c(3,7,2),2,col=green)
+    cy2=Cylinder(c(1,1,2),c(8,1,2),1,col=red)
 
-This will create a scene with a camera, a yellow light, and a red box.
+    sc$push(l1)
+    sc$push(l2)
+    sc$push(c1)
+    sc$push(cyl)
+    sc$push(cy2)
+    sc$save()
+    sc$render()
+
+This will create a scene with a camera, a two lights, and red and green cylinders.
