@@ -65,3 +65,39 @@ Camera=function(location=c(x,y,z),looking=c(x2,y2,z2)){
   return(self) 
 }
 
+Colour=Color=function(r=1,g=1,b=1,t=NA,f=NA){
+  self=list(
+    r=r,
+    g=g,
+    b=b,
+    t=t,
+    f=f,
+    format=function(){
+      if((is.na(self$t) & is.na(self$f)) | (!is.na(self$t) & !is.na(self$f))){
+        output = paste("color rgb<",self$r,",",self$g,",",self$b,">",sep="")
+      }
+      if(!is.na(t) & is.na(f)){
+        output = paste("color rgbt<",self$r,",",self$g,",",self$b,",",self$t,">",sep="")
+      }
+      if(is.na(t) & !is.na(f)){
+        output = paste("color rgbf<",self$r,",",self$g,",",self$b,",",self$f,">",sep="")
+      }
+      output
+    }
+    )
+  self <- list2env(self)
+  class(self) <- "Colour"
+  return(self) 
+}
+
+Texture=function(tex){
+  self=list(
+    tex=tex,
+    format=function(){
+      self$tex
+    }
+  )
+  self <- list2env(self)
+  class(self) <- "Colour"
+  return(self) 
+}
