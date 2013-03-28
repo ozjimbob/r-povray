@@ -24,18 +24,19 @@ Scene=function(){
 }  
 
 # Light class
-Light=function(location=c(x,y,z),col=c(1,1,1)){
+Light=function(location=c(x,y,z),col=NA){
   self=list(
     location=location,
-    colour=col,
+    col=col,
     format=function(){
       x=self$location[1]
       y=self$location[2]
       z=self$location[3]
-      r=self$colour[1]
-      g=self$colour[2]
-      b=self$colour[3]
-      text=paste("light_source {  <",x,",",y,",",z,"> color <",r,",",g,",",b,">}",sep="")
+      text=paste("light_source {  <",x,",",y,",",z,">",sep="")
+      if(is.environment(col)){
+        text=paste(text,col$format())
+      }
+      text=paste(text,"}")
       text
     }
   )
@@ -133,3 +134,4 @@ Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA){
   class(self) <- "Cylinder"
   return(self) 
 }
+
