@@ -152,3 +152,35 @@ Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA){
   return(self) 
 }
 
+
+Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA){
+  self=list(
+    start=start,
+    end=end,
+    col=col,
+    tex=tex,
+    format=function(){
+      x1=self$start[1]
+      y1=self$start[2]
+      z1=self$start[3]
+      x2=self$end[1]
+      y2=self$end[2]
+      z2=self$end[3]
+      text=""
+      text=paste(text,"box{",sep="")
+      text=paste(text,"<",x1,",",y1,",",z1,">,<",x2,",",y2,",",z2,"> ",sep="")
+      if(is.environment(col)){
+        text=paste(text,col$format())
+      }
+      if(is.environment(tex)){
+        text=paste(text,"texture{",tex$format(),"}")
+      }
+      text=paste(text,"}",sep="")
+      text
+    }
+    
+  )
+  self <- list2env(self)
+  class(self) <- "Box"
+  return(self) 
+}
