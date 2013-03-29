@@ -184,3 +184,33 @@ Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA){
   class(self) <- "Box"
   return(self) 
 }
+
+
+Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA){
+  self=list(
+    centre=centre,
+    col=col,
+    tex=tex,
+    radius=radius,
+    format=function(){
+      x1=self$centre[1]
+      y1=self$centre[2]
+      z1=self$centre[3]
+      text=""
+      text=paste(text,"sphere{",sep="")
+      text=paste(text,"<",x1,",",y1,",",z1,">,",self$radius,sep="")
+      if(is.environment(col)){
+        text=paste(text,col$format())
+      }
+      if(is.environment(tex)){
+        text=paste(text,"texture{",tex$format(),"}")
+      }
+      text=paste(text,"}",sep="")
+      text
+    }
+    
+  )
+  self <- list2env(self)
+  class(self) <- "Sphere"
+  return(self) 
+}
