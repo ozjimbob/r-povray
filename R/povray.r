@@ -1,9 +1,9 @@
 ## R-POVRAY
 
 # Scene class
-Scene=function(){
+Scene=function(background=Colour(1,1,1)){
   self=list(
-    contents=c(),
+    contents=c(paste("background{",background$format(light=T),"}\n",sep="")),
     filepath=tempfile(pattern="rd",tmpdir=tempdir(),fileext=".pov"),
     add=function(text){
       self$contents=c(self$contents,text)
@@ -147,11 +147,14 @@ Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA){
       text=""
       text=paste(text,"cylinder{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,<",x2,",",y2,",",z2,">,",self$radius,sep="")
-      if(is.environment(col)){
-        text=paste(text,col$format())
+      if(is.environment(col) & !is.environment(tex)){
+        text=paste(text,col$format(light=F))
       }
-      if(is.environment(tex)){
+      if(is.environment(tex) & !is.environment(col)){
         text=paste(text,"texture{",tex$format(),"}")
+      }
+      if(is.environment(tex) & is.environment(col)){
+        text=paste(text,"texture{",tex$format()," pigment{",col$format(light=T),"}}")
       }
       text=paste(text,"}",sep="")
       text
@@ -180,11 +183,14 @@ Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA){
       text=""
       text=paste(text,"box{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,<",x2,",",y2,",",z2,"> ",sep="")
-      if(is.environment(col)){
-        text=paste(text,col$format())
+      if(is.environment(col) & !is.environment(tex)){
+        text=paste(text,col$format(light=F))
       }
-      if(is.environment(tex)){
+      if(is.environment(tex) & !is.environment(col)){
         text=paste(text,"texture{",tex$format(),"}")
+      }
+      if(is.environment(tex) & is.environment(col)){
+        text=paste(text,"texture{",tex$format()," pigment{",col$format(light=T),"}}")
       }
       text=paste(text,"}",sep="")
       text
@@ -210,11 +216,14 @@ Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA){
       text=""
       text=paste(text,"sphere{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,",self$radius,sep="")
-      if(is.environment(col)){
-        text=paste(text,col$format())
+      if(is.environment(col) & !is.environment(tex)){
+        text=paste(text,col$format(light=F))
       }
-      if(is.environment(tex)){
+      if(is.environment(tex) & !is.environment(col)){
         text=paste(text,"texture{",tex$format(),"}")
+      }
+      if(is.environment(tex) & is.environment(col)){
+        text=paste(text,"texture{",tex$format()," pigment{",col$format(light=T),"}}")
       }
       text=paste(text,"}",sep="")
       text
