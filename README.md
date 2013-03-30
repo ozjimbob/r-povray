@@ -2,6 +2,7 @@ r-povray
 ========
 
 An R Package to interface with the POVRay raytracing system.
+![Demonstration Image](http://i.imgur.com/ckhjJXZ.png)
 
 Introduction
 ----------
