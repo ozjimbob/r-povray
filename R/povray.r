@@ -19,11 +19,22 @@ Scene=function(){
     push=function(object){
       self$contents=c(self$contents,object$format())
     },
-    render=function(w=640,h=400){
+    render=function(w=640,h=400,aa=F){
       self$save()
-      POVLOC="C:\\Program Files\\POV-Ray\\v3.7 RC7\\bin\\pvengine.exe"
-      command=paste(" +I",self$filepath," +W",w," +H",h," +P +V /EXIT",sep="")
-      out=system2(POVLOC,args=command,stderr=T)
+      if(aa){
+        aa=" +A0.1 "
+      }else{
+        aa=" "
+      }
+      if(Sys.info()['sysname'] %in% c("Darwin","Linux") ){
+        POVLOC = Sys.which("povray")
+        command=paste(" +I",self$filepath,aa," +W",w," +H",h," +P -V",sep="")
+      }else{
+        POVLOC="C:\\Program Files\\POV-Ray\\v3.7 RC7\\bin\\pvengine.exe"
+        command=paste(" +I",self$filepath,aa," +W",w," +H",h," +P -V /EXIT",sep="")
+      }
+
+      out=system2(POVLOC,args=command)
       out
     }
     )
