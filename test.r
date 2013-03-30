@@ -8,6 +8,8 @@ l1=Light(c(14,5,-15),Colour(1,1,1))
 l2=Light(c(-14,15,-10),Colour(1,1,0))
 c1=Camera(c(3,12,-20),c(3,2,2))
 
+sp1=Sphere(c(3,2,2),5,tex=glass)
+sc$push(sp1)
 # Define two colours, and a simple reflective texture
 green=Color(0,1,0)
 red=Color(1,0,0)

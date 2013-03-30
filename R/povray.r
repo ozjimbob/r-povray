@@ -126,16 +126,47 @@ Texture=function(tex){
     }
   )
   self <- list2env(self)
-  class(self) <- "Colour"
+  class(self) <- "Texture"
   return(self) 
 }
 
-Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA){
+
+Interior=function(interior){
+  self=list(
+    interior=interior,
+    format=function(){
+      paste("interior{",self$interior,"}")
+    }
+  )
+  self <- list2env(self)
+  class(self) <- "Interior"
+  return(self) 
+}
+
+gen_texture=function(col,tex,interior){
+  text=""
+  if(is.environment(col) & !is.environment(tex)){
+    text=paste(text,col$format(light=F))
+  }
+  if(is.environment(tex) & !is.environment(col)){
+    text=paste(text,"texture{",tex$format(),"}")
+  }
+  if(is.environment(tex) & is.environment(col)){
+    text=paste(text,"texture{",tex$format()," pigment{",col$format(light=T),"}}")
+  }
+  if(is.environment(interior)){
+    text=paste(text,interior$format())
+  }
+  text=paste(text,"}",sep="")
+}
+
+Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA,interior=NA){
   self=list(
     start=start,
     end=end,
     col=col,
     tex=tex,
+    interior=interior,
     radius=radius,
     format=function(){
       x1=self$start[1]
@@ -147,16 +178,7 @@ Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA){
       text=""
       text=paste(text,"cylinder{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,<",x2,",",y2,",",z2,">,",self$radius,sep="")
-      if(is.environment(col) & !is.environment(tex)){
-        text=paste(text,col$format(light=F))
-      }
-      if(is.environment(tex) & !is.environment(col)){
-        text=paste(text,"texture{",tex$format(),"}")
-      }
-      if(is.environment(tex) & is.environment(col)){
-        text=paste(text,"texture{",tex$format()," pigment{",col$format(light=T),"}}")
-      }
-      text=paste(text,"}",sep="")
+      text=paste(text,gen_texture(self$col,self$tex,self$interior),sep=" ")
       text
     }
     
@@ -167,12 +189,13 @@ Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA){
 }
 
 
-Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA){
+Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA,interior=NA){
   self=list(
     start=start,
     end=end,
     col=col,
     tex=tex,
+    interior=interior,
     format=function(){
       x1=self$start[1]
       y1=self$start[2]
@@ -183,16 +206,7 @@ Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA){
       text=""
       text=paste(text,"box{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,<",x2,",",y2,",",z2,"> ",sep="")
-      if(is.environment(col) & !is.environment(tex)){
-        text=paste(text,col$format(light=F))
-      }
-      if(is.environment(tex) & !is.environment(col)){
-        text=paste(text,"texture{",tex$format(),"}")
-      }
-      if(is.environment(tex) & is.environment(col)){
-        text=paste(text,"texture{",tex$format()," pigment{",col$format(light=T),"}}")
-      }
-      text=paste(text,"}",sep="")
+      text=paste(text,gen_texture(self$col,self$tex,self$interior),sep=" ")
       text
     }
     
@@ -203,12 +217,13 @@ Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA){
 }
 
 
-Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA){
+Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA,interior=NA){
   self=list(
     centre=centre,
     col=col,
     tex=tex,
     radius=radius,
+    interior=interior,
     format=function(){
       x1=self$centre[1]
       y1=self$centre[2]
@@ -216,16 +231,7 @@ Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA){
       text=""
       text=paste(text,"sphere{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,",self$radius,sep="")
-      if(is.environment(col) & !is.environment(tex)){
-        text=paste(text,col$format(light=F))
-      }
-      if(is.environment(tex) & !is.environment(col)){
-        text=paste(text,"texture{",tex$format(),"}")
-      }
-      if(is.environment(tex) & is.environment(col)){
-        text=paste(text,"texture{",tex$format()," pigment{",col$format(light=T),"}}")
-      }
-      text=paste(text,"}",sep="")
+      text=paste(text,gen_texture(self$col,self$tex,self$interior),sep=" ")
       text
     }
     
@@ -234,3 +240,5 @@ Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA){
   class(self) <- "Sphere"
   return(self) 
 }
+
+source("R/textures.r")

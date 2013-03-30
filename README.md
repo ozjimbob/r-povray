@@ -2,7 +2,7 @@ r-povray
 ========
 
 An R Package to interface with the POVRay raytracing system.
-![Demonstration Image](http://i.imgur.com/vM669h7.png)
+![Demonstration Image](http://i.imgur.com/QbJcWwx.png)
 
 Introduction
 ----------
@@ -58,6 +58,11 @@ Translucent box for y=0.
     half_grey=Colour(.6,.6,.6,.6)
     b=Box(c(-20,-0.1,-10),c(20,0.1,10),col=half_grey)
     sc$push(b)
+
+And a glass sphere using inbuilt texture and interior.
+
+    sp=Sphere(c(3,2,2),6,tex=glass,interior=i_glass)
+    sc$push(sp)
 
 Push in the lights and camera as well, save and render the scene.
 
