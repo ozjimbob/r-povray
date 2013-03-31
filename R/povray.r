@@ -157,7 +157,7 @@ gen_texture=function(col,tex,interior){
   if(is.environment(interior)){
     text=paste(text,interior$format())
   }
-  text=paste(text,"}",sep="")
+  text
 }
 
 Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA,interior=NA){
@@ -168,6 +168,20 @@ Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA,inter
     tex=tex,
     interior=interior,
     radius=radius,
+    transform=c(),
+    translate=function(translate=c(x,y,z)){
+      self$transform=c(self$transform,paste("translate{<",translate[1],",",translate[2],",",translate[3],">}"))
+    },
+    rotate=function(rotate=c(x,y,z)){
+      self$transform=c(self$transform,paste("rotate{<",rotate[1],",",rotate[2],",",rotate[3],">}"))
+    },    
+    scale=function(scale=c(x,y,z)){
+      if(length(scale)==3){
+        self$transform=c(self$transform,paste("scale{<",scale[1],",",scale[2],",",scale[3],">}"))
+      }else{
+        self$transform=c(self$transform,paste("scale{",scale[1],"}"))
+      }    
+    },
     format=function(){
       x1=self$start[1]
       y1=self$start[2]
@@ -179,6 +193,9 @@ Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA,inter
       text=paste(text,"cylinder{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,<",x2,",",y2,",",z2,">,",self$radius,sep="")
       text=paste(text,gen_texture(self$col,self$tex,self$interior),sep=" ")
+      tl=paste(self$transform,sep=" ",collapse=" ")
+      text=paste(text,tl,sep=" ")
+      text=paste(text,"} ",sep=" ")
       text
     }
     
@@ -198,6 +215,20 @@ Cone=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,radius2=1,col=NA,tex=NA
     interior=interior,
     radius=radius,
     radius2=radius2,
+    transform=c(),
+    translate=function(translate=c(x,y,z)){
+      self$transform=c(self$transform,paste("translate{<",translate[1],",",translate[2],",",translate[3],">}"))
+    },
+    rotate=function(rotate=c(x,y,z)){
+      self$transform=c(self$transform,paste("rotate{<",rotate[1],",",rotate[2],",",rotate[3],">}"))
+    },    
+    scale=function(scale=c(x,y,z)){
+      if(length(scale)==3){
+        self$transform=c(self$transform,paste("scale{<",scale[1],",",scale[2],",",scale[3],">}"))
+      }else{
+        self$transform=c(self$transform,paste("scale{",scale[1],"}"))
+      }    
+    },
     format=function(){
       x1=self$start[1]
       y1=self$start[2]
@@ -209,6 +240,9 @@ Cone=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,radius2=1,col=NA,tex=NA
       text=paste(text,"cone{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,",self$radius,",<",x2,",",y2,",",z2,">,",self$radius2,sep="")
       text=paste(text,gen_texture(self$col,self$tex,self$interior),sep=" ")
+      tl=paste(self$transform,sep=" ",collapse=" ")
+      text=paste(text,tl,sep=" ")
+      text=paste(text,"}",sep=" ")
       text
     }
     
@@ -225,6 +259,20 @@ Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA,interior=NA){
     col=col,
     tex=tex,
     interior=interior,
+    transform=c(),
+    translate=function(translate=c(x,y,z)){
+      self$transform=c(self$transform,paste("translate{<",translate[1],",",translate[2],",",translate[3],">}"))
+    },
+    rotate=function(rotate=c(x,y,z)){
+      self$transform=c(self$transform,paste("rotate{<",rotate[1],",",rotate[2],",",rotate[3],">}"))
+    },    
+    scale=function(scale=c(x,y,z)){
+      if(length(scale)==3){
+        self$transform=c(self$transform,paste("scale{<",scale[1],",",scale[2],",",scale[3],">}"))
+      }else{
+        self$transform=c(self$transform,paste("scale{",scale[1],"}"))
+      }    
+    },
     format=function(){
       x1=self$start[1]
       y1=self$start[2]
@@ -236,6 +284,9 @@ Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA,interior=NA){
       text=paste(text,"box{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,<",x2,",",y2,",",z2,"> ",sep="")
       text=paste(text,gen_texture(self$col,self$tex,self$interior),sep=" ")
+      tl=paste(self$transform,sep=" ",collapse=" ")
+      text=paste(text,tl,sep=" ")
+      text=paste(text,"}",sep=" ")
       text
     }
     
@@ -253,6 +304,20 @@ Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA,interior=NA){
     tex=tex,
     radius=radius,
     interior=interior,
+    transform=c(),
+    translate=function(translate=c(x,y,z)){
+      self$transform=c(self$transform,paste("translate{<",translate[1],",",translate[2],",",translate[3],">}"))
+    },
+    rotate=function(rotate=c(x,y,z)){
+      self$transform=c(self$transform,paste("rotate{<",rotate[1],",",rotate[2],",",rotate[3],">}"))
+    },    
+    scale=function(scale=c(x,y,z)){
+      if(length(scale)==3){
+        self$transform=c(self$transform,paste("scale{<",scale[1],",",scale[2],",",scale[3],">}"))
+      }else{
+        self$transform=c(self$transform,paste("scale{",scale[1],"}"))
+      }    
+    },
     format=function(){
       x1=self$centre[1]
       y1=self$centre[2]
@@ -261,6 +326,9 @@ Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA,interior=NA){
       text=paste(text,"sphere{",sep="")
       text=paste(text,"<",x1,",",y1,",",z1,">,",self$radius,sep="")
       text=paste(text,gen_texture(self$col,self$tex,self$interior),sep=" ")
+      tl=paste(self$transform,sep=" ",collapse=" ")
+      text=paste(text,tl,sep=" ")
+      text=paste(text,"}",sep=" ")
       text
     }
     
