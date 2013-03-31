@@ -189,6 +189,35 @@ Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA,inter
 }
 
 
+Cone=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,radius2=1,col=NA,tex=NA,interior=NA){
+  self=list(
+    start=start,
+    end=end,
+    col=col,
+    tex=tex,
+    interior=interior,
+    radius=radius,
+    radius2=radius2,
+    format=function(){
+      x1=self$start[1]
+      y1=self$start[2]
+      z1=self$start[3]
+      x2=self$end[1]
+      y2=self$end[2]
+      z2=self$end[3]
+      text=""
+      text=paste(text,"cone{",sep="")
+      text=paste(text,"<",x1,",",y1,",",z1,">,",self$radius,",<",x2,",",y2,",",z2,">,",self$radius2,sep="")
+      text=paste(text,gen_texture(self$col,self$tex,self$interior),sep=" ")
+      text
+    }
+    
+  )
+  self <- list2env(self)
+  class(self) <- "Cylinder"
+  return(self) 
+}
+
 Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA,interior=NA){
   self=list(
     start=start,
