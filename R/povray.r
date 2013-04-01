@@ -130,7 +130,6 @@ Texture=function(tex){
   return(self) 
 }
 
-
 Interior=function(interior){
   self=list(
     interior=interior,
@@ -204,7 +203,6 @@ Cylinder=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,col=NA,tex=NA,inter
   class(self) <- "Cylinder"
   return(self) 
 }
-
 
 Cone=function(start=c(x1,y1,z1),end=c(x2,y2,z2),radius=1,radius2=1,col=NA,tex=NA,interior=NA){
   self=list(
@@ -295,7 +293,6 @@ Box=function(start=c(x1,y1,z1),end=c(x2,y2,z2),col=NA,tex=NA,interior=NA){
   class(self) <- "Box"
   return(self) 
 }
-
 
 Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA,interior=NA){
   self=list(
