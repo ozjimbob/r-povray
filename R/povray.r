@@ -1,5 +1,5 @@
 ## R-POVRAY
-
+require(grDevices)
 # Scene class
 Scene=function(background=Colour(1,1,1)){
   self=list(
@@ -333,6 +333,56 @@ Sphere=function(centre=c(x1,y1,z1),radius=1,col=NA,tex=NA,interior=NA){
   self <- list2env(self)
   class(self) <- "Sphere"
   return(self) 
+}
+
+norm = function(x){
+  mn = min(x)
+  mx = max(x)
+  x=x-mn
+  x=x/(mx-mn)
+  x
+}
+
+povplot=function(x,y,z,obj="Sphere",col=Colour(c(1,0,0)),f=NA,t=NA,tex=NA,size=0.1){
+  require(grDevices)
+  if(is.environment(col)){
+    envcol=T
+  }else{
+    envcol=F
+    if(length(col) == length(x)){
+      varcol=T
+    }else{
+      varcol=F
+    }
+    colmat=grDevices::col2rgb(col)
+  }
+  outlist=list()
+  x=norm(x)
+  y=norm(y)
+  z=norm(z)
+  for(idx in seq_along(x)){
+    if(envcol==T){
+      thiscol=col
+    }else{
+      if(varcol==T){
+        place=idx
+      }else{
+        place=1
+      }
+      r=as.numeric(colmat[1,place])
+      g=as.numeric(colmat[2,place])
+      b=as.numeric(colmat[3,place])
+      print(c(r,g,b))
+      thiscol=Colour(r,g,b,f,t)
+    }
+    if(obj == "Sphere"){
+      print(thiscol$r)
+      print(tex)
+      os = Sphere(c(x[idx],y[idx],z[idx]),size,col=thiscol,tex=tex)
+      outlist=c(outlist,os)
+    }
+  }
+  outlist
 }
 
 source("R/textures.r")
